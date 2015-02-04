@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /**
  * Generic data access abstraction.
@@ -130,10 +131,11 @@ class MY_Model extends CI_Model implements Active_Record {
     function __construct($tablename = null, $keyfield = 'id') {
         parent::__construct();
 
-        if ($tablename == null)
+        if ($tablename == null) {
             $this->_tableName = get_class($this);
-        else
+        } else {
             $this->_tableName = $tablename;
+        }
 
         $this->_keyField = $keyfield;
     }
@@ -168,8 +170,9 @@ class MY_Model extends CI_Model implements Active_Record {
     function create() {
         $names = $this->db->list_fields($this->_tableName);
         $object = new StdClass;
-        foreach ($names as $name)
+        foreach ($names as $name) {
             $object->$name = "";
+        }
         return $object;
     }
 
@@ -190,8 +193,9 @@ class MY_Model extends CI_Model implements Active_Record {
     function get($key, $key2 = null) {
         $this->db->where($this->_keyField, $key);
         $query = $this->db->get($this->_tableName);
-        if ($query->num_rows() < 1)
+        if ($query->num_rows() < 1) {
             return null;
+        }
         return $query->row();
     }
 
@@ -219,8 +223,9 @@ class MY_Model extends CI_Model implements Active_Record {
     function exists($key, $key2 = null) {
         $this->db->where($this->_keyField, $key);
         $query = $this->db->get($this->_tableName);
-        if ($query->num_rows() < 1)
+        if ($query->num_rows() < 1) {
             return false;
+        }
         return true;
     }
 
@@ -246,8 +251,9 @@ class MY_Model extends CI_Model implements Active_Record {
         $this->db->order_by($this->_keyField, 'asc');
         if (($what == 'period') && ($which < 9)) {
             $this->db->where($what, $which); // special treatment for period
-        } else
+        } else {
             $this->db->where($what, $which);
+        }
         $query = $this->db->get($this->_tableName);
         return $query->result();
     }
@@ -257,10 +263,11 @@ class MY_Model extends CI_Model implements Active_Record {
         $this->db->select_max($this->_keyField);
         $query = $this->db->get($this->_tableName);
         $result = $query->result();
-        if (count($result) > 0)
+        if (count($result) > 0) {
             return $result[0]->num;
-        else
+        } else {
             return null;
+        }
     }
 
 }
@@ -284,8 +291,9 @@ class MY_Model2 extends MY_Model {
         $this->db->where($this->_keyField, $key1);
         $this->db->where($this->_keyField2, $key2);
         $query = $this->db->get($this->_tableName);
-        if ($query->num_rows() < 1)
+        if ($query->num_rows() < 1) {
             return null;
+        }
         return $query->row();
     }
 
